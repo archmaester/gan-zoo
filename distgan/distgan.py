@@ -3,6 +3,7 @@ import tensorflow as tf
 from data_loader.data_utils_sine import Data
 from models.model_distgan_sine import Model
 from trainers.trainer import Trainer
+from evaluate.evaluator import Evaluator
 from settings.config_sine import load_settings_from_file
 from utils.dirs import create_dirs
 from utils.logger import Logger
@@ -44,6 +45,9 @@ def main():
     
     # Train the model 
     trainer.train_epoch()
+
+    #Evaluate the model 
+    trainer.evaluate()
 
     
 if __name__ == '__main__':

@@ -5,7 +5,7 @@ def load_settings_from_file():
     
     config = {
 
-    "dir_root":"experiments/dist_gan_sine/",
+    "dir_root":"experiments/dist_gan/",
     "num_samples":1000,
     "seq_length": 1400,
     "num_signals":1,
@@ -15,10 +15,10 @@ def load_settings_from_file():
     "num_epochs":1500,
     "D_rounds":3,
     "G_rounds":5,
-    "num_iter_per_epoch": 100000, 
+    "num_iter_per_epoch": 10000, 
     "lambda_p": 1.0,
-    "lambda_r": 1.0,
-    "beta1" : 0.5,
+    "lambda_r": 0.1,
+    "beta1" : 0.0,
     "beta2" : 0.9, 
     "learning_rate" : 0.1,
     "generator_settings": { "dim": 8,

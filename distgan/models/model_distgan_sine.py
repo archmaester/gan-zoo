@@ -25,7 +25,7 @@ class Model(BaseModel):
                        
         self.optimize_d = tf.train.AdamOptimizer(0.0002, beta1 = self.beta1, beta2 = self.beta2)
         self.optimize_g = tf.train.AdamOptimizer(0.0002, beta1 = self.beta1, beta2 = self.beta2)
-        self.optimize_r = tf.train.AdamOptimizer(0.00002, beta1 = self.beta1, beta2 = self.beta2)
+        self.optimize_r = tf.train.AdamOptimizer(0.0002, beta1 = self.beta1, beta2 = self.beta2)
  
         self.build_model()
         self.init_saver()
@@ -138,7 +138,8 @@ class Model(BaseModel):
                 x = tf.layers.conv2d_transpose(x, self.channels, b, c, d)
 
                 print("Decoder : ", x.get_shape())  
-#                 x = tf.nn.sigmoid(x)                          
+                
+                x = tf.nn.tanh(x)                          
                 
                 return x
                     
@@ -208,8 +209,8 @@ class Model(BaseModel):
 
 
             self.lambda_w =tf.sqrt(self.z_dim / self.feature_dim )
-            self.reconstruction   = tf.reduce_mean(tf.nn.l2_loss(self.f_x_input - self.f_xr_input)) #reconstruction
-
+            self.reconstruction   = tf.reduce_mean(tf.nn.l2_loss(self.x_input - self.xr_input)) #reconstruction
+            
             # Doubtful
 
             gradients = tf.gradients([self.d_inter], [self.interpolation])[0]
@@ -229,7 +230,7 @@ class Model(BaseModel):
             
             self.R_loss  = self.reconstruction + self.lambda_r * self.reg
             
-            self.G_loss  = tf.abs(tf.reduce_mean(self.D_real) - tf.reduce_mean(self.D_fake))
+            self.G_loss  = tf.abs(tf.reduce_mean(self.D_real - self.D_fake))
 
         
             print(self.D_loss.get_shape())
